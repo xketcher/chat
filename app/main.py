@@ -5,7 +5,7 @@ app = FastAPI()
 rooms = {}
 
 class MessageRequest(BaseModel):
-    message: str
+    input: str
 
 @app.websocket("/ws/{room}")
 async def websocket_endpoint(ws: WebSocket, room: str):
@@ -25,7 +25,7 @@ async def send_message(room: str, request: MessageRequest):
         raise HTTPException(404, "Room not found")
     for ws in rooms[room].copy():
         try:
-            await ws.send_text(request.message)
+            await ws.send_text(request.input)
         except:
             rooms[room].discard(ws)
     return {"status": "Message sent"}
