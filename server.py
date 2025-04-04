@@ -31,3 +31,7 @@ async def send_message(room: str, request: dict, authorization: str = Header(Non
         except:
             rooms[room].discard(ws)
     return {"status": "Message sent"}
+
+@app.get("/ping")
+async def ping():
+    return {"status": "alive"}
